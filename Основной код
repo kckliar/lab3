@@ -1,6 +1,25 @@
-%%filters design punkt 2
-freqArray = [31, 62, 125, 250, 500, 1000, 2000, 4000,8000,16000];
-order = 1024;
+% Filter design
+freqArray = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000,16000];
+order = 1024; 
 fS = 44100;
-%%Createfilters punkt 3
 
+%punkt 3-4
+bBank = CreatingFilters(freqArray, order, fS);
+
+%Filtering of signals
+%%read song
+signal = audioread('song.mp3');
+initB=zeros(1,order);
+gain = ones(length(freqArray),1);
+
+tic
+cso = FilteringBanks(signal,bBank,'filter',gain,initB);
+toc
+tic
+sni = FilteringBanks(signal,bBank,'fftfilt',gain,initB);
+toc
+
+b=sum(gain.*bBank,1);
+tic
+signalOut = convFilter(b,signal);
+toc
