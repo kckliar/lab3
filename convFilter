@@ -1,0 +1,10 @@
+function signalOut = convFilter(b,signal)
+N=size(signal);
+m=N(2);
+signalOut = zeros(N(1) + 1024, N(2));
+for k=1:m
+    signalOUT=conv(b,signal(:,k));
+    signalOut(:, k) = signalOUT;
+   
+end
+end
